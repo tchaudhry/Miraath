@@ -263,9 +263,6 @@
     }];
 }
 
-
-
-
 - (void)dismissMenuViewController:(BOOL)animated andPresentViewController:(UIViewController *)viewController;
 {
 	[self dismissMenuViewControllerAnimated:animated];

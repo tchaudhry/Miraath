@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SlideOutMenuContainerViewController.h"
 
 @interface IOPMenuTableViewController : UITableViewController
 

@@ -7,6 +7,8 @@
 //
 
 #import "IOPMenuTableViewController.h"
+#import "IOPRadioViewController.h"
+#import "UIViewController+SlideMenu.h"
 
 @interface IOPMenuTableViewController ()
 
@@ -49,23 +51,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
     return [[self.data objectForKey:@"Sections"] count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-
 	return [[[self.data objectForKey:@"Sections"] objectAtIndex:section] objectForKey:@"title"];
-	
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    //return 0;
 	NSDictionary *sectionDictionary = [[self.data objectForKey:@"Sections"] objectAtIndex:section];
 	return [[sectionDictionary objectForKey:@"cells"] count];
 }
@@ -132,13 +127,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    NSDictionary *sectionDictionary = [[self.data objectForKey:@"Sections"] objectAtIndex:indexPath.section];
+	NSDictionary *channelInfo = [[sectionDictionary objectForKey:@"cells"] objectAtIndex:indexPath.row];
+    
+    IOPRadioViewController *rvc = [[IOPRadioViewController alloc] init];
+    rvc.channelInfo = channelInfo;
+    
+    [self.containerViewController dismissMenuViewController:YES andPresentViewController:rvc];
 }
 
 @end

@@ -22,6 +22,12 @@
     self = [super init];
     if (self) {
         
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        NSError *error = nil;
+        [audioSession setCategory:AVAudioSessionCategoryPlayback error:&error];
+        [audioSession setActive:YES error:&error];
+        if (error)
+            NSLog(@"Failed to create audio session: %@", [error localizedDescription]);
     }
     return self;
 }
@@ -29,7 +35,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,6 +55,10 @@
 - (void)initialiseAudio
 {
     NSString *urlString = [self.channelInfo objectForKey:@"url"];
+    
+    // debug
+    urlString = @"http://miraath.net:9996/listen.pls";
+    
     NSURL *url = [NSURL URLWithString:urlString];
     
     self.player = [[AVPlayer alloc] initWithURL:url];

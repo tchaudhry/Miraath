@@ -28,6 +28,4 @@
 
 @property (nonatomic, strong) id <SlideOutMenuContainerViewControllerDelegate> containerDelegate;
 
-
-
 @end

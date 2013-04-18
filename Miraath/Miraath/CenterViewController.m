@@ -33,6 +33,14 @@
 
 - (void)pushViewController:(UIViewController *)viewController
 {
+    if ([self.childViewControllers count] > 0) {
+        for (UIViewController *vc in self.childViewControllers) {
+            
+            [vc willMoveToParentViewController:nil];
+            [vc removeFromParentViewController];
+        }
+    }
+    
     [self addChildViewController:viewController];
     [self.view addSubview:viewController.view];
     [viewController didMoveToParentViewController:self];

@@ -7,7 +7,6 @@
 //
 
 #import "IOPRadioViewController.h"
-#import <AVFoundation/AVFoundation.h>
 
 @interface IOPRadioViewController ()
 
@@ -16,6 +15,14 @@
 @end
 
 @implementation IOPRadioViewController
+
+- (void)dealloc
+{
+    if (FW_isIOS6())
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
+    
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+}
 
 - (id)init
 {
@@ -28,6 +35,12 @@
         [audioSession setActive:YES error:&error];
         if (error)
             NSLog(@"Failed to create audio session: %@", [error localizedDescription]);
+        
+        if (FW_isIOS5())
+            audioSession.delegate = self;
+        
+        if (FW_isIOS6())
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioSessionInterruption:) name:AVAudioSessionInterruptionNotification object:audioSession];
     }
     return self;
 }
@@ -36,7 +49,8 @@
 {
     [super viewDidLoad];
 	
-    
+    MPVolumeView *volumeView = [[MPVolumeView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:volumeView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,17 +66,75 @@
     [self initialiseAudio];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self becomeFirstResponder];
+}
+
 - (void)initialiseAudio
 {
     NSString *urlString = [self.channelInfo objectForKey:@"url"];
-    
-    // debug
-    urlString = @"http://miraath.net:9996/listen.pls";
     
     NSURL *url = [NSURL URLWithString:urlString];
     
     self.player = [[AVPlayer alloc] initWithURL:url];
     [self.player play];
+    
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+}
+
+#pragma mark - AVAudioSessionDelegate
+
+- (void)endInterruptionWithFlags:(NSUInteger)flags
+{
+    if (flags == AVAudioSessionInterruptionFlags_ShouldResume)
+        [self.player play];
+}
+
+- (void)audioSessionInterruption:(NSNotification *)notification
+{
+    AVAudioSessionInterruptionType interruptionType = [[[notification userInfo] objectForKey:AVAudioSessionInterruptionTypeKey] integerValue];
+    if (interruptionType == AVAudioSessionInterruptionTypeEnded) {
+        AVAudioSessionInterruptionOptions option = [[[notification userInfo] objectForKey:AVAudioSessionInterruptionOptionKey] integerValue];
+        if (option == AVAudioSessionInterruptionOptionShouldResume)
+            [self.player play];
+    }
+}
+
+#pragma mark - RemoveControlEvents
+
+- (BOOL)canBecomeFirstResponder {
+
+    return YES;
+}
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
+    
+    if (receivedEvent.type == UIEventTypeRemoteControl) {
+        
+        switch (receivedEvent.subtype) {
+                
+            case UIEventSubtypeRemoteControlTogglePlayPause:
+                if (self.player.rate == 0.0f)
+                    [self.player play];
+                else
+                    [self.player pause];
+                break;
+                
+            case UIEventSubtypeRemoteControlPreviousTrack:
+                //[self previousTrack: nil];
+                break;
+                
+            case UIEventSubtypeRemoteControlNextTrack:
+                //[self nextTrack: nil];
+                break;
+                
+            default:
+                break;
+        }
+    }
 }
 
 @end

@@ -167,7 +167,7 @@
         iv.image = [self _backgroundImage];
         
         UIImageView *siv = [UIImageView new];
-        siv.image = [self _selectedBackgroundImage];
+        //siv.image = [self _selectedBackgroundImage];
         
         cell.backgroundView = iv;
         cell.selectedBackgroundView = siv;

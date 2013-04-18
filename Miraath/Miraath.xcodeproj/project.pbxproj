@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		59F583F6172028B3004EF6AB /* MenuContent.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59F583F5172028B3004EF6AB /* MenuContent.plist */; };
 		AB85569B1720048600EF3BDD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB85569A1720048600EF3BDD /* UIKit.framework */; };
 		AB85569D1720048600EF3BDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB85569C1720048600EF3BDD /* Foundation.framework */; };
 		AB85569F1720048600EF3BDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB85569E1720048600EF3BDD /* CoreGraphics.framework */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		59F583F5172028B3004EF6AB /* MenuContent.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MenuContent.plist; sourceTree = "<group>"; };
 		AB8556971720048600EF3BDD /* Miraath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Miraath.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB85569A1720048600EF3BDD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AB85569C1720048600EF3BDD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -221,6 +223,7 @@
 		AB8556E91720127800EF3BDD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				59F583F5172028B3004EF6AB /* MenuContent.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				AB8556AF1720048600EF3BDD /* Default.png in Resources */,
 				AB8556B11720048600EF3BDD /* Default@2x.png in Resources */,
 				AB8556B31720048600EF3BDD /* Default-568h@2x.png in Resources */,
+				59F583F6172028B3004EF6AB /* MenuContent.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,6 +524,7 @@
 				AB8556D11720048600EF3BDD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AB8556D21720048600EF3BDD /* Build configuration list for PBXNativeTarget "MiraathTests" */ = {
 			isa = XCConfigurationList;
@@ -528,6 +533,7 @@
 				AB8556D41720048600EF3BDD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

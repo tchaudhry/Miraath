@@ -10,6 +10,8 @@
 
 @interface IOPMenuTableViewController ()
 
+@property (nonatomic, strong) NSDictionary *data;
+
 @end
 
 @implementation IOPMenuTableViewController
@@ -19,6 +21,9 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+		NSString *dictionaryPath = [[NSBundle mainBundle] pathForResource:@"MenuContent" ofType:@"plist"];
+		NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:dictionaryPath];
+		self.data = data;
     }
     return self;
 }
@@ -46,23 +51,41 @@
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return [[self.data objectForKey:@"Sections"] count];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+
+	return [[[self.data objectForKey:@"Sections"] objectAtIndex:section] objectForKey:@"title"];
+	
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    //return 0;
+	NSDictionary *sectionDictionary = [[self.data objectForKey:@"Sections"] objectAtIndex:section];
+	return [[sectionDictionary objectForKey:@"cells"] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
+    static NSString *CellIdentifier = @"MenuItem";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+    }
+	
+	
     // Configure the cell...
-    
+	NSDictionary *sectionDictionary = [[self.data objectForKey:@"Sections"] objectAtIndex:indexPath.section];
+	cell.textLabel.text =  [[[sectionDictionary objectForKey:@"cells"] objectAtIndex:indexPath.row] objectForKey:@"title"];
+	
     return cell;
 }
 

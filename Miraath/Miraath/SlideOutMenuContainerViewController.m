@@ -17,6 +17,7 @@
 
 @property (nonatomic, strong) UIViewController *menuViewController;
 @property (nonatomic, strong) UIViewController *centerViewController;
+@property (nonatomic, strong) UITapGestureRecognizer *dismissMenuTapGestureRecognizer;
 
 @end
 
@@ -40,6 +41,7 @@
     self.view.backgroundColor = [UIColor blackColor];
     
     self.centerViewController.view.frame = self.view.bounds;
+    self.menuViewController.view.frame = UIEdgeInsetsInsetRect(self.view.bounds, UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 32.0f));
     
     [self addChildViewController:self.centerViewController];
     [self.centerViewController willMoveToParentViewController:self];
@@ -55,11 +57,18 @@
     self.centerViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
     self.centerViewController.view.layer.shadowOffset = CGSizeMake(-2.0f, 0.0f);
     self.centerViewController.view.layer.shadowRadius = 2.0f;
-    self.centerViewController.view.layer.shadowOpacity = 0.8f;
+    self.centerViewController.view.layer.shadowOpacity = 0.6f;
 
 	UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(centrePanGestureRecognizer:)];
 	[self.centerViewController.view addGestureRecognizer:panGestureRecognizer];
-	
+    
+    self.dismissMenuTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissMenuTapGestureRecognizer:)];
+    [self.centerViewController.view addGestureRecognizer:self.dismissMenuTapGestureRecognizer];
+}
+
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
 }
 
 
@@ -69,7 +78,7 @@
 	[UIView animateWithDuration:duration animations:^{
         
         self.centerViewController.view.frame = CGRectOffset(self.view.bounds, -15.0f, 0.0f);
-        self.centerViewController.view.alpha = 1.0f;
+//        self.centerViewController.view.alpha = 1.0f;
         self.menuViewController.view.transform = CGAffineTransformMakeScale(0.95f, 0.85f);
         self.menuViewController.view.alpha = 0.8f;
         
@@ -100,7 +109,7 @@
 	[UIView animateWithDuration:duration  animations:^{
         
         self.centerViewController.view.frame = CGRectOffset(self.view.bounds, self.view.bounds.size.width * 0.95f, 0.0f);
-        self.centerViewController.view.alpha = 0.8f;
+        //self.centerViewController.view.alpha = 0.8f;
         self.menuViewController.view.transform = CGAffineTransformIdentity;
         self.menuViewController.view.alpha = 1.0f;
         
@@ -119,7 +128,7 @@
 	CGPoint locationOfDrag = [panGestureRecognizer locationInView:self.view];
 	if(panGestureRecognizer.state == UIGestureRecognizerStateBegan)
 	{
-		self.menuViewController.view.frame = self.view.bounds;
+		self.menuViewController.view.frame = UIEdgeInsetsInsetRect(self.view.bounds, UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, self.view.bounds.size.width * 0.1f));
 		self.menuViewController.view.transform = CGAffineTransformMakeScale(0.95f, 0.85f);
 		self.menuViewController.view.alpha = 0.25f;
 		
@@ -181,10 +190,15 @@
 	}
 }
 
+- (void)dismissMenuTapGestureRecognizer:(UITapGestureRecognizer *)tapGestureRecognizer
+{
+    if (_menuVisible)
+        [self dismissMenuViewControllerAnimated:YES];
+}
 
 - (void)presentMenuViewControllerAnimated:(BOOL)animated
 {
-    self.menuViewController.view.frame = self.view.bounds;
+    self.menuViewController.view.frame = UIEdgeInsetsInsetRect(self.view.bounds, UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, self.view.bounds.size.width * 0.1f));
     self.menuViewController.view.transform = CGAffineTransformMakeScale(0.95f, 0.85f);
     self.menuViewController.view.alpha = 0.25f;
     
@@ -197,7 +211,7 @@
     [UIView animateWithDuration:animated ? 0.4f : 0.0f animations:^{
         
         self.centerViewController.view.frame = CGRectOffset(self.view.bounds, self.view.bounds.size.width * 0.95f, 0.0f);
-		self.centerViewController.view.alpha = 0.8f;
+//		self.centerViewController.view.alpha = 0.8f;
         self.menuViewController.view.transform = CGAffineTransformIdentity;
         self.menuViewController.view.alpha = 1.0f;
         
@@ -224,7 +238,7 @@
     [UIView animateWithDuration:animated ? 0.3f : 0.0f animations:^{
         
         self.centerViewController.view.frame = CGRectOffset(self.view.bounds, -15.0f, 0.0f);
-		self.centerViewController.view.alpha = 1.0f;
+//		self.centerViewController.view.alpha = 1.0f;
         self.menuViewController.view.transform = CGAffineTransformMakeScale(0.95f, 0.85f);
         self.menuViewController.view.alpha = 0.8f;
         

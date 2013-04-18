@@ -38,7 +38,7 @@
 {
     [super viewDidLoad];
 	
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor lightGrayColor];
     
     self.centerViewController.view.frame = self.view.bounds;
     self.menuViewController.view.frame = UIEdgeInsetsInsetRect(self.view.bounds, UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 32.0f));

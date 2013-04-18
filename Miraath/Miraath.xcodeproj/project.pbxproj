@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		59F583F6172028B3004EF6AB /* MenuContent.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59F583F5172028B3004EF6AB /* MenuContent.plist */; };
+		59F583FA17204617004EF6AB /* UIImage+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F583F917204617004EF6AB /* UIImage+Block.m */; };
+		59F583FC172046FC004EF6AB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F583FB172046FC004EF6AB /* QuartzCore.framework */; };
 		AB85569B1720048600EF3BDD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB85569A1720048600EF3BDD /* UIKit.framework */; };
 		AB85569D1720048600EF3BDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB85569C1720048600EF3BDD /* Foundation.framework */; };
 		AB85569F1720048600EF3BDD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB85569E1720048600EF3BDD /* CoreGraphics.framework */; };
@@ -47,6 +49,9 @@
 
 /* Begin PBXFileReference section */
 		59F583F5172028B3004EF6AB /* MenuContent.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MenuContent.plist; sourceTree = "<group>"; };
+		59F583F817204617004EF6AB /* UIImage+Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Block.h"; sourceTree = "<group>"; };
+		59F583F917204617004EF6AB /* UIImage+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Block.m"; sourceTree = "<group>"; };
+		59F583FB172046FC004EF6AB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		AB8556971720048600EF3BDD /* Miraath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Miraath.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB85569A1720048600EF3BDD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AB85569C1720048600EF3BDD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -83,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59F583FC172046FC004EF6AB /* QuartzCore.framework in Frameworks */,
 				AB85569B1720048600EF3BDD /* UIKit.framework in Frameworks */,
 				AB85569D1720048600EF3BDD /* Foundation.framework in Frameworks */,
 				AB85569F1720048600EF3BDD /* CoreGraphics.framework in Frameworks */,
@@ -104,9 +110,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		59F583FF17204FA4004EF6AB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				59F583F817204617004EF6AB /* UIImage+Block.h */,
+				59F583F917204617004EF6AB /* UIImage+Block.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		AB85568E1720048600EF3BDD = {
 			isa = PBXGroup;
 			children = (
+				59F583FB172046FC004EF6AB /* QuartzCore.framework */,
 				AB8556A21720048600EF3BDD /* Miraath */,
 				AB8556C41720048600EF3BDD /* MiraathTests */,
 				AB8556991720048600EF3BDD /* Frameworks */,
@@ -216,6 +232,7 @@
 		AB8556E8172004E800EF3BDD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				59F583FF17204FA4004EF6AB /* Extensions */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -346,6 +363,7 @@
 				AB8556E1172004A700EF3BDD /* SlideOutMenuContainerViewController.m in Sources */,
 				AB8556E3172004A700EF3BDD /* UIViewController+SlideMenu.m in Sources */,
 				AB8556EF172017EB00EF3BDD /* IOPMenuTableViewController.m in Sources */,
+				59F583FA17204617004EF6AB /* UIImage+Block.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

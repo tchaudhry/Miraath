@@ -1,5 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict/>
+<dict>
+	<key>Sections</key>
+	<array>
+		<dict>
+			<key>title</key>
+			<string>Radio</string>
+			<key>cells</key>
+			<array>
+				<dict>
+					<key>title</key>
+					<string>Arabic</string>
+				</dict>
+				<dict>
+					<key>title</key>
+					<string>English</string>
+				</dict>
+				<dict>
+					<key>title</key>
+					<string>Quran</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>Articles</string>
+			<key>cells</key>
+			<array>
+				<dict>
+					<key>title</key>
+					<string>Haj and Umrah</string>
+				</dict>
+				<dict>
+					<key>title</key>
+					<string>Fatawa</string>
+				</dict>
+				<dict>
+					<key>title</key>
+					<string>Fawa&apos;id (Benefits)</string>
+				</dict>
+				<dict>
+					<key>title</key>
+					<string>Abu Yahya Articles</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>Books</string>
+			<key>cells</key>
+			<array>
+				<dict>
+					<key>title</key>
+					<string>Current Releases</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
 </plist>

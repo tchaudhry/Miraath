@@ -85,7 +85,7 @@
             //
             CGColorRef startColor = [UIColor colorWithRed:.0 green:.0 blue:.0 alpha:.9f].CGColor;
             CGColorRef endColor = [UIColor colorWithRed:.0 green:.0 blue:.0 alpha:.0f].CGColor;
-            NSArray *colors = [NSArray arrayWithObjects:(__bridge id)startColor, (__bridge id)endColor, nil];
+            NSArray *colors = [NSArray arrayWithObjects:(__bridge_transfer id)startColor, (__bridge_transfer id)endColor, nil];
             CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
             CGGradientRef _glossGradientRef = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef) colors, NULL);
             CGColorSpaceRelease(colorSpace);
@@ -108,6 +108,8 @@
             
             CGContextSetAlpha(ctx, .2f);
             CGContextDrawLinearGradient(ctx, _glossGradientRef, endPoint, startPoint, kCGGradientDrawsAfterEndLocation);
+			CGGradientRelease(_glossGradientRef);
+			
         }];
     });
     

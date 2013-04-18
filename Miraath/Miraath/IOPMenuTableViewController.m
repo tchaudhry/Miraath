@@ -9,6 +9,7 @@
 #import "IOPMenuTableViewController.h"
 #import "IOPRadioViewController.h"
 #import "UIViewController+SlideMenu.h"
+#import "UIImage+Block.h"
 
 @interface IOPMenuTableViewController ()
 
@@ -29,6 +30,100 @@
     }
     return self;
 }
+
+
+- (void)loadView
+{
+    [super loadView];
+    
+    self.tableView.rowHeight = 50.0f;//kTableViewCellHeight
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+}
+
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+}
+
+- (UIImage *)_backgroundImage
+{
+    static dispatch_once_t onceToken;
+    static UIImage *toReturn = nil;
+    dispatch_once(&onceToken, ^{
+        toReturn = [UIImage imageWithSize:CGSizeMake(1.0f, 50.0f) block:^(CGContextRef ctx) {
+            
+            CGRect rect = CGContextGetClipBoundingBox(ctx);
+            
+            CGRect bottomLine = rect;
+            bottomLine.origin.y += CGRectGetHeight(bottomLine)-1.0f;
+            bottomLine.size.height = 1.0f;
+			
+            [[UIColor colorWithWhite:.35f alpha:1.0f] setFill];
+            UIRectFill(bottomLine);
+            
+            CGRect topLine = rect;
+            topLine.size.height = 1.0f;
+            [[UIColor colorWithWhite:.8f alpha:1.0f] setFill];
+            UIRectFill(topLine);
+        }];
+    });
+    
+    return toReturn;
+}
+
+- (UIImage *)_selectedBackgroundImage
+{
+    __block typeof(UIImage) *_weakBackgroundImage = [self _backgroundImage];
+    static dispatch_once_t onceToken;
+    static UIImage *toReturn = nil;
+    dispatch_once(&onceToken, ^{
+        toReturn = [UIImage imageWithSize:CGSizeMake(1.0f, 50.0f) block:^(CGContextRef ctx) {
+            
+            CGRect rect = CGContextGetClipBoundingBox(ctx);
+            
+            [[[UIColor blackColor] colorWithAlphaComponent:.25f] setFill];
+            UIRectFill(rect);
+            
+            [_weakBackgroundImage drawInRect:rect];
+            
+            //
+            CGColorRef startColor = [UIColor colorWithRed:.0 green:.0 blue:.0 alpha:.9f].CGColor;
+            CGColorRef endColor = [UIColor colorWithRed:.0 green:.0 blue:.0 alpha:.0f].CGColor;
+            NSArray *colors = [NSArray arrayWithObjects:(__bridge id)startColor, (__bridge id)endColor, nil];
+            CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+            CGGradientRef _glossGradientRef = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef) colors, NULL);
+            CGColorSpaceRelease(colorSpace);
+            
+            //
+            CGFloat gradientHeight = 6.0f;
+            CGRect gradientRect = rect;
+            gradientRect.size.height = gradientHeight;
+            
+            CGPoint startPoint = (CGPoint){CGRectGetMinX(gradientRect), CGRectGetMinY(gradientRect)};
+            CGPoint endPoint = (CGPoint){CGRectGetMinX(gradientRect), CGRectGetMaxY(gradientRect)};
+            CGContextDrawLinearGradient(ctx, _glossGradientRef, startPoint, endPoint, kCGGradientDrawsAfterEndLocation);
+            
+            gradientRect = rect;
+            gradientRect.origin.y += (CGRectGetHeight(gradientRect)-gradientHeight);
+            gradientRect.size.height = gradientHeight;
+            
+            startPoint = (CGPoint){CGRectGetMinX(gradientRect), CGRectGetMinY(gradientRect)};
+            endPoint = (CGPoint){CGRectGetMinX(gradientRect), CGRectGetMaxY(gradientRect)};
+            
+            CGContextSetAlpha(ctx, .2f);
+            CGContextDrawLinearGradient(ctx, _glossGradientRef, endPoint, startPoint, kCGGradientDrawsAfterEndLocation);
+        }];
+    });
+    
+    return toReturn;
+}
+
+
+
 
 - (void)viewDidLoad
 {
@@ -67,15 +162,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"MenuItem";
+
+    static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }
-    }
-	
+    if (!cell)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+		
+        UIImageView *iv = [UIImageView new];
+        iv.image = [self _backgroundImage];
+        
+        UIImageView *siv = [UIImageView new];
+        siv.image = [self _selectedBackgroundImage];
+        
+        cell.backgroundView = iv;
+        cell.selectedBackgroundView = siv;
+		cell.textLabel.textColor = [UIColor darkTextColor];
+		//cell.textLabel.highlightedTextColor = [UIColor lightTextColor];
+    }    
 	
     // Configure the cell...
 	NSDictionary *sectionDictionary = [[self.data objectForKey:@"Sections"] objectAtIndex:indexPath.section];
@@ -83,6 +187,9 @@
 	
     return cell;
 }
+
+
+
 
 /*
 // Override to support conditional editing of the table view.

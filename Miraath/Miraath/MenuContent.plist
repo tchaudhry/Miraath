@@ -12,14 +12,20 @@
 				<dict>
 					<key>title</key>
 					<string>Arabic</string>
+					<key>url</key>
+					<string>http://miraath.net:9996/listen.pls</string>
 				</dict>
 				<dict>
 					<key>title</key>
 					<string>English</string>
+					<key>url</key>
+					<string>http://miraath.net:9996/listen.pls</string>
 				</dict>
 				<dict>
 					<key>title</key>
 					<string>Quran</string>
+					<key>url</key>
+					<string>http://miraath.net:9996/listen.pls</string>
 				</dict>
 			</array>
 		</dict>

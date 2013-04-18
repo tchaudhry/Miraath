@@ -32,6 +32,9 @@
 		AB8556E4172004A700EF3BDD /* UIViewController+SlideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8556DC172004A700EF3BDD /* UIViewController+SlideMenu.m */; };
 		AB8556EF172017EB00EF3BDD /* IOPMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8556EE172017EB00EF3BDD /* IOPMenuTableViewController.m */; };
 		AB8556F0172017EB00EF3BDD /* IOPMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8556EE172017EB00EF3BDD /* IOPMenuTableViewController.m */; };
+		AB8556F3172034EA00EF3BDD /* IOPRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8556F2172034E900EF3BDD /* IOPRadioViewController.m */; };
+		AB8556F4172034EA00EF3BDD /* IOPRadioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8556F2172034E900EF3BDD /* IOPRadioViewController.m */; };
+		AB8556F617203C7100EF3BDD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8556F517203C7100EF3BDD /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +77,9 @@
 		AB8556DC172004A700EF3BDD /* UIViewController+SlideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+SlideMenu.m"; sourceTree = "<group>"; };
 		AB8556ED172017EB00EF3BDD /* IOPMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPMenuTableViewController.h; sourceTree = "<group>"; };
 		AB8556EE172017EB00EF3BDD /* IOPMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOPMenuTableViewController.m; sourceTree = "<group>"; };
+		AB8556F1172034E900EF3BDD /* IOPRadioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPRadioViewController.h; sourceTree = "<group>"; };
+		AB8556F2172034E900EF3BDD /* IOPRadioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOPRadioViewController.m; sourceTree = "<group>"; };
+		AB8556F517203C7100EF3BDD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB8556F617203C7100EF3BDD /* AVFoundation.framework in Frameworks */,
 				AB85569B1720048600EF3BDD /* UIKit.framework in Frameworks */,
 				AB85569D1720048600EF3BDD /* Foundation.framework in Frameworks */,
 				AB85569F1720048600EF3BDD /* CoreGraphics.framework in Frameworks */,
@@ -124,6 +131,7 @@
 		AB8556991720048600EF3BDD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AB8556F517203C7100EF3BDD /* AVFoundation.framework */,
 				AB85569A1720048600EF3BDD /* UIKit.framework */,
 				AB85569C1720048600EF3BDD /* Foundation.framework */,
 				AB85569E1720048600EF3BDD /* CoreGraphics.framework */,
@@ -186,6 +194,8 @@
 				AB8556E6172004BD00EF3BDD /* SlideMenu */,
 				AB8556ED172017EB00EF3BDD /* IOPMenuTableViewController.h */,
 				AB8556EE172017EB00EF3BDD /* IOPMenuTableViewController.m */,
+				AB8556F1172034E900EF3BDD /* IOPRadioViewController.h */,
+				AB8556F2172034E900EF3BDD /* IOPRadioViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -342,6 +352,7 @@
 				AB8556E1172004A700EF3BDD /* SlideOutMenuContainerViewController.m in Sources */,
 				AB8556E3172004A700EF3BDD /* UIViewController+SlideMenu.m in Sources */,
 				AB8556EF172017EB00EF3BDD /* IOPMenuTableViewController.m in Sources */,
+				AB8556F3172034EA00EF3BDD /* IOPRadioViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,6 +365,7 @@
 				AB8556E2172004A700EF3BDD /* SlideOutMenuContainerViewController.m in Sources */,
 				AB8556E4172004A700EF3BDD /* UIViewController+SlideMenu.m in Sources */,
 				AB8556F0172017EB00EF3BDD /* IOPMenuTableViewController.m in Sources */,
+				AB8556F4172034EA00EF3BDD /* IOPRadioViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

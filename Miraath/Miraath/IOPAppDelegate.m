@@ -9,12 +9,13 @@
 #import "IOPAppDelegate.h"
 #import "CenterViewController.h"
 #import "SlideOutMenuContainerViewController.h"
+#import "IOPMenuTableViewController.h"
 
 @implementation IOPAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    UITableViewController *menuTableViewController = [[UITableViewController alloc] init];
+    IOPMenuTableViewController *menuTableViewController = [[IOPMenuTableViewController alloc] init];
     UINavigationController *menuNavigationController = [[UINavigationController alloc] initWithRootViewController:menuTableViewController];
     
     CenterViewController *centerViewController = [[CenterViewController alloc] init];

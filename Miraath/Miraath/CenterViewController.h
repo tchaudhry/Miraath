@@ -11,7 +11,6 @@
 
 @interface CenterViewController : UIViewController<SlideOutMenuContainerViewControllerDelegate>
 
-@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, assign) BOOL canPresentView;
+@property (nonatomic, strong) UIViewController *contentViewController;
 
 @end

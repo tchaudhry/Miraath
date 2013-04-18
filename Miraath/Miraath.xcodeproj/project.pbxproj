@@ -30,6 +30,8 @@
 		AB8556E2172004A700EF3BDD /* SlideOutMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8556DA172004A700EF3BDD /* SlideOutMenuContainerViewController.m */; };
 		AB8556E3172004A700EF3BDD /* UIViewController+SlideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8556DC172004A700EF3BDD /* UIViewController+SlideMenu.m */; };
 		AB8556E4172004A700EF3BDD /* UIViewController+SlideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8556DC172004A700EF3BDD /* UIViewController+SlideMenu.m */; };
+		AB8556EF172017EB00EF3BDD /* IOPMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8556EE172017EB00EF3BDD /* IOPMenuTableViewController.m */; };
+		AB8556F0172017EB00EF3BDD /* IOPMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8556EE172017EB00EF3BDD /* IOPMenuTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,8 @@
 		AB8556DA172004A700EF3BDD /* SlideOutMenuContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideOutMenuContainerViewController.m; sourceTree = "<group>"; };
 		AB8556DB172004A700EF3BDD /* UIViewController+SlideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+SlideMenu.h"; sourceTree = "<group>"; };
 		AB8556DC172004A700EF3BDD /* UIViewController+SlideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+SlideMenu.m"; sourceTree = "<group>"; };
+		AB8556ED172017EB00EF3BDD /* IOPMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPMenuTableViewController.h; sourceTree = "<group>"; };
+		AB8556EE172017EB00EF3BDD /* IOPMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOPMenuTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +149,7 @@
 		AB8556A31720048600EF3BDD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AB8556E91720127800EF3BDD /* Resources */,
 				AB8556A41720048600EF3BDD /* Miraath-Info.plist */,
 				AB8556A51720048600EF3BDD /* InfoPlist.strings */,
 				AB8556A81720048600EF3BDD /* main.m */,
@@ -178,12 +183,14 @@
 		AB8556E5172004AE00EF3BDD /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				AB8556E6172004BD00EF3BDD /* Menu */,
+				AB8556E6172004BD00EF3BDD /* SlideMenu */,
+				AB8556ED172017EB00EF3BDD /* IOPMenuTableViewController.h */,
+				AB8556EE172017EB00EF3BDD /* IOPMenuTableViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
 		};
-		AB8556E6172004BD00EF3BDD /* Menu */ = {
+		AB8556E6172004BD00EF3BDD /* SlideMenu */ = {
 			isa = PBXGroup;
 			children = (
 				AB8556D5172004A700EF3BDD /* CenterViewController.h */,
@@ -193,7 +200,7 @@
 				AB8556DB172004A700EF3BDD /* UIViewController+SlideMenu.h */,
 				AB8556DC172004A700EF3BDD /* UIViewController+SlideMenu.m */,
 			);
-			name = Menu;
+			name = SlideMenu;
 			sourceTree = "<group>";
 		};
 		AB8556E7172004E200EF3BDD /* Model */ = {
@@ -209,6 +216,13 @@
 			children = (
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		AB8556E91720127800EF3BDD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -327,6 +341,7 @@
 				AB8556DD172004A700EF3BDD /* CenterViewController.m in Sources */,
 				AB8556E1172004A700EF3BDD /* SlideOutMenuContainerViewController.m in Sources */,
 				AB8556E3172004A700EF3BDD /* UIViewController+SlideMenu.m in Sources */,
+				AB8556EF172017EB00EF3BDD /* IOPMenuTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +353,7 @@
 				AB8556DE172004A700EF3BDD /* CenterViewController.m in Sources */,
 				AB8556E2172004A700EF3BDD /* SlideOutMenuContainerViewController.m in Sources */,
 				AB8556E4172004A700EF3BDD /* UIViewController+SlideMenu.m in Sources */,
+				AB8556F0172017EB00EF3BDD /* IOPMenuTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

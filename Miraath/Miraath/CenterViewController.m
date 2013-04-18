@@ -19,20 +19,10 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [UIColor underPageBackgroundColor];
-	
-    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleBordered target:self action:@selector(showMenu)];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Menu", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(showMenu)];
     self.navigationItem.leftBarButtonItem = menuButton;
-}
-
-- (void)viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
 }
 
 - (void)showMenu
@@ -42,7 +32,7 @@
 
 - (void)pushViewController:(UIViewController *)viewController{
 	
-	[self.navigationController pushViewController:viewController animated:YES];
+	[self.navigationController setViewControllers:@[viewController] animated:YES];
 }
 
 @end

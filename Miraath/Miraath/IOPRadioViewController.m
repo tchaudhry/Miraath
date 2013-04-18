@@ -51,6 +51,17 @@
 	
     MPVolumeView *volumeView = [[MPVolumeView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:volumeView];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    button.frame = CGRectMake(50.0f, 200.0f, 200.0f, 50.0f);
+    [button addTarget:self action:@selector(togglePlayPause:) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"Play/Pause" forState:UIControlStateNormal];
+    [self.view addSubview:button];
+}
+
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,6 +82,13 @@
     [super viewDidAppear:animated];
     
     [self becomeFirstResponder];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self resignFirstResponder];
 }
 
 - (void)initialiseAudio
@@ -105,6 +123,14 @@
 
 #pragma mark - RemoveControlEvents
 
+- (void)togglePlayPause:(id)sender
+{
+    if (self.player.rate == 0.0f)
+        [self.player play];
+    else
+        [self.player pause];
+}
+
 - (BOOL)canBecomeFirstResponder {
 
     return YES;
@@ -117,10 +143,7 @@
         switch (receivedEvent.subtype) {
                 
             case UIEventSubtypeRemoteControlTogglePlayPause:
-                if (self.player.rate == 0.0f)
-                    [self.player play];
-                else
-                    [self.player pause];
+                [self togglePlayPause:nil];
                 break;
                 
             case UIEventSubtypeRemoteControlPreviousTrack:

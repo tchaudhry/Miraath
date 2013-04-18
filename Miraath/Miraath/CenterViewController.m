@@ -26,6 +26,11 @@
     self.menuButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Menu", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(showMenu)];
 }
 
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+}
+
 - (void)showMenu
 {
     [self.containerViewController toggleMenuViewControllerAnimated:YES];
@@ -37,6 +42,7 @@
         for (UIViewController *vc in self.childViewControllers) {
             
             [vc willMoveToParentViewController:nil];
+            [vc.view removeFromSuperview];
             [vc removeFromParentViewController];
         }
     }

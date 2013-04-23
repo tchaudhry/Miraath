@@ -81,14 +81,26 @@
             UIRectFill(rect);
             
             [_weakBackgroundImage drawInRect:rect];
+			
+			CGFloat startColorComps[] = {.0f, .0f, .0f, .9f};
+			CGFloat endColorComps[] = {.0f, .0f, .0f, .0f};
+			CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+			
+			CGColorRef startColor = CGColorCreate(colorSpace, startColorComps);
+			CGColorRef endColor = CGColorCreate(colorSpace, endColorComps);
+			
             
-            //
-            CGColorRef startColor = [UIColor colorWithRed:.0 green:.0 blue:.0 alpha:.9f].CGColor;
-            CGColorRef endColor = [UIColor colorWithRed:.0 green:.0 blue:.0 alpha:.0f].CGColor;
-            NSArray *colors = [NSArray arrayWithObjects:(__bridge_transfer id)startColor, (__bridge_transfer id)endColor, nil];
-            CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-            CGGradientRef _glossGradientRef = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef) colors, NULL);
+			CFMutableArrayRef colors = CFArrayCreateMutable(NULL, 2, &kCFTypeArrayCallBacks);
+			CFArrayAppendValue(colors, startColor);
+			CFArrayAppendValue(colors, endColor);
+			
+			CGGradientRef _glossGradientRef = CGGradientCreateWithColors(colorSpace, colors, NULL);
+			
             CGColorSpaceRelease(colorSpace);
+			CFRelease(colors);
+			CFRelease(endColor);
+			CFRelease(startColor);
+
             
             //
             CGFloat gradientHeight = 6.0f;
@@ -167,7 +179,7 @@
         iv.image = [self _backgroundImage];
         
         UIImageView *siv = [UIImageView new];
-        //siv.image = [self _selectedBackgroundImage];
+        siv.image = [self _selectedBackgroundImage];
         
         cell.backgroundView = iv;
         cell.selectedBackgroundView = siv;

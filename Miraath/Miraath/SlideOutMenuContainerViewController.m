@@ -166,24 +166,28 @@
 		//BOOL dismissMenu = self.centerViewController.view.frame.origin.x < CGRectGetMidX(self.view.bounds);
 		
 		CGPoint velocity = [panGestureRecognizer velocityInView:self.view];
+		CGFloat xVelocity = fabsf(velocity.x) < 350.0f ? 350.f : fabsf(velocity.x);
+		NSLog(@"xVelocity = %f", xVelocity);
+		
+		
 		NSLog(@"velocity: %@", NSStringFromCGPoint(velocity));
 		
 		if(self.centerViewController.view.frame.origin.x < (self.view.frame.size.width * 0.15))
 		{
-			[self hideMenuControllerWithAnimationDuration: fabsf(self.centerViewController.view.frame.origin.x/ velocity.x)];
+			[self hideMenuControllerWithAnimationDuration: fabsf(self.centerViewController.view.frame.origin.x/ xVelocity)];
 		}
 		else if (self.centerViewController.view.frame.origin.x > (self.view.frame.size.width * 0.85))
 		{
-			[self showMenuControllerWithAnimationDuration:fabsf((self.view.frame.size.width - self.centerViewController.view.frame.origin.x) / velocity.x)];
+			[self showMenuControllerWithAnimationDuration:fabsf((self.view.frame.size.width - self.centerViewController.view.frame.origin.x) / xVelocity)];
 		}else{
 			if(velocity.x < 0){
 				NSLog(@"%f", velocity.x);
 				NSLog(@"%f", self.centerViewController.view.frame.origin.x);
-				CGFloat duration = self.centerViewController.view.frame.origin.x / velocity.x;
+				CGFloat duration = self.centerViewController.view.frame.origin.x / xVelocity;
 				NSLog(@"%f", duration);
 				[self hideMenuControllerWithAnimationDuration: fabsf(duration)];
 			}else{
-				[self showMenuControllerWithAnimationDuration:fabsf((self.view.frame.size.width - self.centerViewController.view.frame.origin.x) / velocity.x)];
+				[self showMenuControllerWithAnimationDuration:fabsf((self.view.frame.size.width - self.centerViewController.view.frame.origin.x) / xVelocity)];
 			}
 		}
 		

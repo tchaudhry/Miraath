@@ -10,8 +10,10 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface IOPRadioViewController : UIViewController <AVAudioSessionDelegate>
+@interface IOPRadioViewController : UIViewController <AVAudioSessionDelegate, NSURLConnectionDelegate>
 
+
+@property (nonatomic, strong) UIImageView	*defaultBackgroundImageView;
 @property (nonatomic, strong) NSDictionary *channelInfo;
 
 @end

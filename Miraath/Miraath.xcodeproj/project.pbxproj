@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		594794D31726389600E7E20D /* button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 594794D21726389600E7E20D /* button@2x.png */; };
+		594794D71726CA0D00E7E20D /* radio_player_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 594794D41726CA0D00E7E20D /* radio_player_button@2x.png */; };
+		594794D81726CA0D00E7E20D /* radio_player_pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 594794D51726CA0D00E7E20D /* radio_player_pause@2x.png */; };
+		594794D91726CA0D00E7E20D /* radio_player_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 594794D61726CA0D00E7E20D /* radio_player_play@2x.png */; };
+		594794EA172AA5FD00E7E20D /* KGNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 594794E9172AA5FD00E7E20D /* KGNoise.m */; };
+		59C5E7D2172ABC8300FF54DF /* black_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 59C5E7D0172ABC8300FF54DF /* black_bg@2x.png */; };
+		59C5E7D3172ABC8300FF54DF /* black_bg-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 59C5E7D1172ABC8300FF54DF /* black_bg-568h@2x.png */; };
+		59C5E7D7172AF32B00FF54DF /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 59C5E7D6172AF32B00FF54DF /* UIColor+Extension.m */; };
 		59F583F6172028B3004EF6AB /* MenuContent.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59F583F5172028B3004EF6AB /* MenuContent.plist */; };
 		59F583FA17204617004EF6AB /* UIImage+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F583F917204617004EF6AB /* UIImage+Block.m */; };
 		59F583FC172046FC004EF6AB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F583FB172046FC004EF6AB /* QuartzCore.framework */; };
@@ -55,7 +61,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		594794D21726389600E7E20D /* button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button@2x.png"; sourceTree = "<group>"; };
+		594794D41726CA0D00E7E20D /* radio_player_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "radio_player_button@2x.png"; sourceTree = "<group>"; };
+		594794D51726CA0D00E7E20D /* radio_player_pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "radio_player_pause@2x.png"; sourceTree = "<group>"; };
+		594794D61726CA0D00E7E20D /* radio_player_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "radio_player_play@2x.png"; sourceTree = "<group>"; };
+		594794E8172AA5FD00E7E20D /* KGNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGNoise.h; sourceTree = "<group>"; };
+		594794E9172AA5FD00E7E20D /* KGNoise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGNoise.m; sourceTree = "<group>"; };
+		59C5E7D0172ABC8300FF54DF /* black_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "black_bg@2x.png"; sourceTree = "<group>"; };
+		59C5E7D1172ABC8300FF54DF /* black_bg-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "black_bg-568h@2x.png"; sourceTree = "<group>"; };
+		59C5E7D5172AF32B00FF54DF /* UIColor+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
+		59C5E7D6172AF32B00FF54DF /* UIColor+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extension.m"; sourceTree = "<group>"; };
 		59F583F5172028B3004EF6AB /* MenuContent.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MenuContent.plist; sourceTree = "<group>"; };
 		59F583F817204617004EF6AB /* UIImage+Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Block.h"; sourceTree = "<group>"; };
 		59F583F917204617004EF6AB /* UIImage+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Block.m"; sourceTree = "<group>"; };
@@ -129,7 +143,11 @@
 		59DC535317215D0A0000EF10 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				594794D21726389600E7E20D /* button@2x.png */,
+				59C5E7D0172ABC8300FF54DF /* black_bg@2x.png */,
+				59C5E7D1172ABC8300FF54DF /* black_bg-568h@2x.png */,
+				594794D41726CA0D00E7E20D /* radio_player_button@2x.png */,
+				594794D51726CA0D00E7E20D /* radio_player_pause@2x.png */,
+				594794D61726CA0D00E7E20D /* radio_player_play@2x.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -139,6 +157,8 @@
 			children = (
 				59F583F817204617004EF6AB /* UIImage+Block.h */,
 				59F583F917204617004EF6AB /* UIImage+Block.m */,
+				59C5E7D5172AF32B00FF54DF /* UIColor+Extension.h */,
+				59C5E7D6172AF32B00FF54DF /* UIColor+Extension.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -261,6 +281,8 @@
 		AB8556E8172004E800EF3BDD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				594794E8172AA5FD00E7E20D /* KGNoise.h */,
+				594794E9172AA5FD00E7E20D /* KGNoise.m */,
 				59F583FF17204FA4004EF6AB /* Extensions */,
 			);
 			name = View;
@@ -361,7 +383,11 @@
 				AB8556B11720048600EF3BDD /* Default@2x.png in Resources */,
 				AB8556B31720048600EF3BDD /* Default-568h@2x.png in Resources */,
 				59F583F6172028B3004EF6AB /* MenuContent.plist in Resources */,
-				594794D31726389600E7E20D /* button@2x.png in Resources */,
+				594794D71726CA0D00E7E20D /* radio_player_button@2x.png in Resources */,
+				594794D81726CA0D00E7E20D /* radio_player_pause@2x.png in Resources */,
+				594794D91726CA0D00E7E20D /* radio_player_play@2x.png in Resources */,
+				59C5E7D2172ABC8300FF54DF /* black_bg@2x.png in Resources */,
+				59C5E7D3172ABC8300FF54DF /* black_bg-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +432,8 @@
 				59F583FA17204617004EF6AB /* UIImage+Block.m in Sources */,
 				AB8556F3172034EA00EF3BDD /* IOPRadioViewController.m in Sources */,
 				ABB2E59B17206195007801A1 /* FWPlatformDetection.m in Sources */,
+				594794EA172AA5FD00E7E20D /* KGNoise.m in Sources */,
+				59C5E7D7172AF32B00FF54DF /* UIColor+Extension.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

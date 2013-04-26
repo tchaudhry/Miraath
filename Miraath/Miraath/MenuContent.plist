@@ -13,19 +13,25 @@
 					<key>title</key>
 					<string>Arabic</string>
 					<key>url</key>
-					<string>http://miraath.net:9996/listen.pls</string>
+					<string>http://miraath.net:7070/listen.pls</string>
+					<key>trackTitleUrl</key>
+					<string>http://miraath.net:7070/7.html</string>
 				</dict>
 				<dict>
 					<key>title</key>
 					<string>English</string>
 					<key>url</key>
 					<string>http://miraath.net:9996/listen.pls</string>
+					<key>trackTitleUrl</key>
+					<string>http://miraath.net:9996/7.html</string>
 				</dict>
 				<dict>
 					<key>title</key>
 					<string>Quran</string>
 					<key>url</key>
-					<string>http://miraath.net:9996/listen.pls</string>
+					<string>http://miraath.net:7075/listen.pls</string>
+					<key>trackTitleUrl</key>
+					<string>http://miraath.net:7075/7.html</string>
 				</dict>
 			</array>
 		</dict>

@@ -37,8 +37,9 @@
     [super loadView];
     
     self.tableView.rowHeight = 50.0f;//kTableViewCellHeight
-    self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor grayColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+
 }
 
 - (UIImage *)_backgroundImage
@@ -55,12 +56,12 @@
             bottomLine.size.height = 1.0f;
 			
             [[UIColor colorWithWhite:.35f alpha:1.0f] setFill];
-            UIRectFill(bottomLine);
+            //UIRectFill(bottomLine);
             
             CGRect topLine = rect;
             topLine.size.height = 1.0f;
             [[UIColor colorWithWhite:.8f alpha:1.0f] setFill];
-            UIRectFill(topLine);
+            //UIRectFill(topLine);
         }];
     });
     
@@ -183,8 +184,10 @@
         
         cell.backgroundView = iv;
         cell.selectedBackgroundView = siv;
-		cell.textLabel.textColor = [UIColor darkTextColor];
-		//cell.textLabel.highlightedTextColor = [UIColor lightTextColor];
+		cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f];
+		cell.textLabel.textColor = [UIColor whiteColor];
+		cell.textLabel.highlightedTextColor = [UIColor lightTextColor];
+		
     }    
 	
     // Configure the cell...
@@ -247,6 +250,11 @@
     rvc.channelInfo = channelInfo;
     
     [self.containerViewController dismissMenuViewController:YES andPresentViewController:rvc];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return 50.0f;
 }
 
 @end

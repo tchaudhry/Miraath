@@ -38,7 +38,7 @@
 {
     [super viewDidLoad];
 	
-    self.view.backgroundColor = [UIColor lightGrayColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     self.centerViewController.view.frame = self.view.bounds;
     self.menuViewController.view.frame = UIEdgeInsetsInsetRect(self.view.bounds, UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 32.0f));
@@ -174,7 +174,7 @@
 		
 		if(self.centerViewController.view.frame.origin.x < (self.view.frame.size.width * 0.15))
 		{
-			[self hideMenuControllerWithAnimationDuration: fabsf(self.centerViewController.view.frame.origin.x/ xVelocity)];
+			[self hideMenuControllerWithAnimationDuration: fabsf(self.centerViewController.view.frame.origin.x/ xVelocity / 3)];
 		}
 		else if (self.centerViewController.view.frame.origin.x > (self.view.frame.size.width * 0.85))
 		{

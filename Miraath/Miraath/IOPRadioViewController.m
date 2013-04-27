@@ -80,6 +80,14 @@
     //self.volumeView = [[MPVolumeView alloc] initWithFrame:self.view.bounds];
 	self.volumeView = [[MPVolumeView alloc] initWithFrame:CGRectZero];
 	//[self.volumeView sizeToFit];
+	
+	for (UIView *view in self.volumeView.subviews){
+		if ([view isKindOfClass:[UISlider class]]) {
+			((UISlider *) view).minimumTrackTintColor = [UIColor peachTextColor];
+			((UISlider *) view).maximumTrackTintColor = [UIColor offWhiteTextColor];
+		}
+	}
+	
     [self.view addSubview:self.volumeView];
 
     //Add the button
@@ -172,7 +180,7 @@
 	
 	self.trackTitleLabel.alpha = 0.0f;
 	self.radioStationLabel.alpha = 0.0f;
-	
+	self.volumeView.alpha = 0.0f;
 	
 }
 
@@ -408,6 +416,10 @@
 					 completion:^(BOOL finished) {
 						 [UIView animateWithDuration:1.5f animations:^{
 							self.radioStationLabel.alpha = 1.0f;
+						 }completion:^(BOOL finished) {
+							 [UIView animateWithDuration:1.5f animations:^{
+								 self.volumeView.alpha = 1.0f;
+							 }];
 						 }];
 					 }
 	 ];

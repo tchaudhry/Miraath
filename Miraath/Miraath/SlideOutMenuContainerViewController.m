@@ -38,7 +38,7 @@
 {
     [super viewDidLoad];
 	
-    self.view.backgroundColor = [UIColor whiteColor];
+//    self.view.backgroundColor = [UIColor whiteColor];
     
     self.centerViewController.view.frame = self.view.bounds;
     self.menuViewController.view.frame = UIEdgeInsetsInsetRect(self.view.bounds, UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 32.0f));
@@ -54,11 +54,6 @@
 	[self.view sendSubviewToBack:self.menuViewController.view];
 	[self.menuViewController didMoveToParentViewController:self];
     
-    self.centerViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.centerViewController.view.layer.shadowOffset = CGSizeMake(-2.0f, 0.0f);
-    self.centerViewController.view.layer.shadowRadius = 2.0f;
-    self.centerViewController.view.layer.shadowOpacity = 0.6f;
-
 	UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(centrePanGestureRecognizer:)];
 	[self.centerViewController.view addGestureRecognizer:panGestureRecognizer];
     
@@ -66,9 +61,19 @@
     [self.centerViewController.view addGestureRecognizer:self.dismissMenuTapGestureRecognizer];
 }
 
-- (void)viewWillLayoutSubviews
+- (void)viewDidLayoutSubviews
 {
-    [super viewWillLayoutSubviews];
+    [super viewDidLayoutSubviews];
+    
+    // set shadowLayer property only once
+    if (!self.centerViewController.view.layer.shadowPath)
+    {
+        self.centerViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.centerViewController.view.layer.shadowOffset = CGSizeMake(-2.0f, 0.0f);
+        self.centerViewController.view.layer.shadowRadius = 2.0f;
+        self.centerViewController.view.layer.shadowOpacity = 0.6f;
+        self.centerViewController.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
+    }
 }
 
 
@@ -80,7 +85,7 @@
         self.centerViewController.view.frame = CGRectOffset(self.view.bounds, .0f, 0.0f);
 //        self.centerViewController.view.alpha = 1.0f;
         self.menuViewController.view.transform = CGAffineTransformMakeScale(0.95f, 0.95f);
-        self.menuViewController.view.alpha = 0.8f;
+//        self.menuViewController.view.alpha = 0.8f;
         
     } completion:^(BOOL finished) {
         
@@ -111,7 +116,7 @@
         self.centerViewController.view.frame = CGRectOffset(self.view.bounds, self.view.bounds.size.width * 0.95f, 0.0f);
         //self.centerViewController.view.alpha = 0.8f;
         self.menuViewController.view.transform = CGAffineTransformIdentity;
-        self.menuViewController.view.alpha = 1.0f;
+//        self.menuViewController.view.alpha = 1.0f;
         
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:0.3f animations:^{
@@ -130,14 +135,14 @@
 	{
 		self.menuViewController.view.frame = UIEdgeInsetsInsetRect(self.view.bounds, UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, self.view.bounds.size.width * 0.1f));
 		self.menuViewController.view.transform = CGAffineTransformMakeScale(0.95f, 0.95f);
-		self.menuViewController.view.alpha = 0.25f;
+//		self.menuViewController.view.alpha = 0.25f;
 		
 		
 		
 		_xStart = locationOfDrag.x;
 		_centerStartX = self.centerViewController.view.frame.origin.x;
 		CGFloat xPercentageDragged = self.centerViewController.view.frame.origin.x / (self.view.bounds.size.width * .9f);
-		self.menuViewController.view.alpha = 0.25f + (0.75 * xPercentageDragged);
+//		self.menuViewController.view.alpha = 0.25f + (0.75 * xPercentageDragged);
 		self.menuViewController.view.transform = CGAffineTransformMakeScale(.95f + (.05f * xPercentageDragged), 0.85 + (0.15 * xPercentageDragged));
 	
 		
@@ -157,7 +162,7 @@
 		
 		CGFloat xPercentageDragged = self.centerViewController.view.frame.origin.x / (self.view.bounds.size.width * .9f);
 //		DLog(@"Percentage Dragged:  %f", xPercentageDragged);
-		self.menuViewController.view.alpha = 0.5f + (0.5f * xPercentageDragged);
+//		self.menuViewController.view.alpha = 0.5f + (0.5f * xPercentageDragged);
 		self.menuViewController.view.transform = CGAffineTransformMakeScale(.95f + (.05f * xPercentageDragged), 0.95 + (0.05 * xPercentageDragged));
 		
 	}
@@ -207,7 +212,7 @@
 {
     self.menuViewController.view.frame = UIEdgeInsetsInsetRect(self.view.bounds, UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, self.view.bounds.size.width * 0.1f));
     self.menuViewController.view.transform = CGAffineTransformMakeScale(0.95f, 0.85f);
-    self.menuViewController.view.alpha = 0.25f;
+//    self.menuViewController.view.alpha = 0.25f;
     
     [self addChildViewController:self.menuViewController];
     [self.menuViewController willMoveToParentViewController:self];
@@ -220,7 +225,7 @@
         self.centerViewController.view.frame = CGRectOffset(self.view.bounds, self.view.bounds.size.width * 0.95f, 0.0f);
 //		self.centerViewController.view.alpha = 0.8f;
         self.menuViewController.view.transform = CGAffineTransformIdentity;
-        self.menuViewController.view.alpha = 1.0f;
+//        self.menuViewController.view.alpha = 1.0f;
         
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:0.3f animations:^{
@@ -247,7 +252,7 @@
         self.centerViewController.view.frame = CGRectOffset(self.view.bounds, .0f, 0.0f);
 //		self.centerViewController.view.alpha = 1.0f;
         self.menuViewController.view.transform = CGAffineTransformMakeScale(0.95f, 0.85f);
-        self.menuViewController.view.alpha = 0.8f;
+//        self.menuViewController.view.alpha = 0.8f;
         
     } completion:^(BOOL finished) {
         

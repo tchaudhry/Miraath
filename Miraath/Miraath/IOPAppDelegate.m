@@ -26,7 +26,7 @@
 	slideOutMenuContainerViewController.containerDelegate = centerViewController;
 	
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+    self.window.backgroundColor = [UIColor blackColor];
     self.window.rootViewController = slideOutMenuContainerViewController;
     [self.window makeKeyAndVisible];
 	//[self.window.rootViewController presentViewController:centerNavigationController animated:NO completion:nil];

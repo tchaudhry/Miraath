@@ -11,6 +11,21 @@
 #import "UIViewController+SlideMenu.h"
 #import "UIImage+Block.h"
 #import "UIColor+Extension.h"
+#import "KGNoise.h"
+
+@interface IOPNiceHeaderView : UIView
+@property (nonatomic, readonly) CAGradientLayer *gradientLayer;
+@end
+
+@implementation IOPNiceHeaderView
+
++ (Class)layerClass { return [CAGradientLayer class]; }
+
+- (CAGradientLayer *)gradientLayer { return (CAGradientLayer *)self.layer; }
+
+@end
+
+CGFloat const kTableViewCellHeight = 50.0f;
 
 @interface IOPMenuTableViewController ()
 
@@ -20,29 +35,35 @@
 
 @implementation IOPMenuTableViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-		NSString *dictionaryPath = [[NSBundle mainBundle] pathForResource:@"MenuContent" ofType:@"plist"];
-		NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:dictionaryPath];
-		self.data = data;
-    }
-    return self;
-}
-
-
 - (void)loadView
 {
     [super loadView];
     
+    //
+    NSString *dictionaryPath = [[NSBundle mainBundle] pathForResource:@"MenuContent" ofType:@"plist"];
+    NSDictionary *data = [[NSDictionary alloc] initWithContentsOfFile:dictionaryPath];
+    self.data = data;
+    
+    //
 	[self.navigationController setNavigationBarHidden:YES];
 	
-    self.tableView.rowHeight = 50.0f;//kTableViewCellHeight
-    self.tableView.backgroundColor = [UIColor darkGrayColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-
+    //
+    self.tableView.rowHeight = kTableViewCellHeight;
+    self.tableView.backgroundView = [[UIView alloc] init];
+    self.tableView.backgroundView.backgroundColor = [UIColor colorWithWhite:.15f alpha:1.0f];
+    self.tableView.separatorColor = [UIColor colorWithWhite:.1f alpha:1.0f];
+    self.tableView.tableFooterView = [[UIView alloc] init];
+    
+    //
+    CGRect tableHeaderViewFrame = self.view.bounds;
+    tableHeaderViewFrame = CGRectOffset(tableHeaderViewFrame, .0f, -CGRectGetHeight(tableHeaderViewFrame));
+    IOPNiceHeaderView *niceHeaderView = [[IOPNiceHeaderView alloc] initWithFrame:tableHeaderViewFrame];
+    NSArray *colors = @[(id)[[UIColor blackColor] colorWithAlphaComponent:1.0f].CGColor, (id)[[UIColor blackColor] colorWithAlphaComponent:.0f].CGColor];
+    niceHeaderView.gradientLayer.colors = colors;
+    UIView *tableHeaderView = [[UIView alloc] init];
+    [tableHeaderView addSubview:niceHeaderView];
+    self.tableView.tableHeaderView = tableHeaderView;
+    
 }
 
 - (UIImage *)_backgroundImage
@@ -50,21 +71,21 @@
     static dispatch_once_t onceToken;
     static UIImage *toReturn = nil;
     dispatch_once(&onceToken, ^{
-        toReturn = [UIImage imageWithSize:CGSizeMake(1.0f, 50.0f) block:^(CGContextRef ctx) {
+        toReturn = [UIImage imageWithSize:CGSizeMake(320.0f, kTableViewCellHeight) block:^(CGContextRef ctx) {
             
             CGRect rect = CGContextGetClipBoundingBox(ctx);
             
-            CGRect bottomLine = rect;
-            bottomLine.origin.y += CGRectGetHeight(bottomLine)-1.0f;
-            bottomLine.size.height = 1.0f;
-			
-            [[UIColor colorWithWhite:.35f alpha:1.0f] setFill];
-            //UIRectFill(bottomLine);
+            //
+            UIColor *color = [UIColor colorWithWhite:.2f alpha:1.0f];
+            color = [color colorWithNoiseWithOpacity:.05f];
+            [color setFill];
+            UIRectFill(rect);
             
+            //
             CGRect topLine = rect;
             topLine.size.height = 1.0f;
-            [[UIColor colorWithWhite:.8f alpha:1.0f] setFill];
-            //UIRectFill(topLine);
+            [[UIColor colorWithWhite:1.0f alpha:.2f] setFill];
+            UIRectFill(topLine);
         }];
     });
     
@@ -73,59 +94,22 @@
 
 - (UIImage *)_selectedBackgroundImage
 {
-    __block typeof(UIImage) *_weakBackgroundImage = [self _backgroundImage];
     static dispatch_once_t onceToken;
     static UIImage *toReturn = nil;
     dispatch_once(&onceToken, ^{
-        toReturn = [UIImage imageWithSize:CGSizeMake(1.0f, 50.0f) block:^(CGContextRef ctx) {
+        toReturn = [UIImage imageWithSize:CGSizeMake(1.0f, kTableViewCellHeight) block:^(CGContextRef ctx) {
             
             CGRect rect = CGContextGetClipBoundingBox(ctx);
             
+            //
             [[[UIColor blackColor] colorWithAlphaComponent:.25f] setFill];
             UIRectFill(rect);
             
-            [_weakBackgroundImage drawInRect:rect];
-			
-			CGFloat startColorComps[] = {.0f, .0f, .0f, .9f};
-			CGFloat endColorComps[] = {.0f, .0f, .0f, .0f};
-			CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-			
-			CGColorRef startColor = CGColorCreate(colorSpace, startColorComps);
-			CGColorRef endColor = CGColorCreate(colorSpace, endColorComps);
-			
-            
-			CFMutableArrayRef colors = CFArrayCreateMutable(NULL, 2, &kCFTypeArrayCallBacks);
-			CFArrayAppendValue(colors, startColor);
-			CFArrayAppendValue(colors, endColor);
-			
-			CGGradientRef _glossGradientRef = CGGradientCreateWithColors(colorSpace, colors, NULL);
-			
-            CGColorSpaceRelease(colorSpace);
-			CFRelease(colors);
-			CFRelease(endColor);
-			CFRelease(startColor);
-
-            
             //
-            CGFloat gradientHeight = 6.0f;
-            CGRect gradientRect = rect;
-            gradientRect.size.height = gradientHeight;
-            
-            CGPoint startPoint = (CGPoint){CGRectGetMinX(gradientRect), CGRectGetMinY(gradientRect)};
-            CGPoint endPoint = (CGPoint){CGRectGetMinX(gradientRect), CGRectGetMaxY(gradientRect)};
-            CGContextDrawLinearGradient(ctx, _glossGradientRef, startPoint, endPoint, kCGGradientDrawsAfterEndLocation);
-            
-            gradientRect = rect;
-            gradientRect.origin.y += (CGRectGetHeight(gradientRect)-gradientHeight);
-            gradientRect.size.height = gradientHeight;
-            
-            startPoint = (CGPoint){CGRectGetMinX(gradientRect), CGRectGetMinY(gradientRect)};
-            endPoint = (CGPoint){CGRectGetMinX(gradientRect), CGRectGetMaxY(gradientRect)};
-            
-            CGContextSetAlpha(ctx, .2f);
-            CGContextDrawLinearGradient(ctx, _glossGradientRef, endPoint, startPoint, kCGGradientDrawsAfterEndLocation);
-			CGGradientRelease(_glossGradientRef);
-			
+            CGRect topLine = rect;
+            topLine.size.height = 1.0f;
+            [[UIColor colorWithWhite:.1f alpha:1.0f] setFill];
+            UIRectFill(topLine);
         }];
     });
     
@@ -133,6 +117,58 @@
 }
 
 
+- (UIImage *)_viewForHeaderImage
+{
+    static dispatch_once_t onceToken;
+    static UIImage *toReturn = nil;
+    dispatch_once(&onceToken, ^{
+        toReturn = [UIImage imageWithSize:CGSizeMake(320.0f, 22.0f) block:^(CGContextRef ctx) {
+            
+            CGRect rect = CGContextGetClipBoundingBox(ctx);
+            
+            //
+            UIColor *color = [UIColor colorWithWhite:.3f alpha:1.0f];
+            color = [color colorWithNoiseWithOpacity:.05f];
+            [color setFill];
+            UIRectFill(rect);
+            
+            //
+            CGFloat startColorComps[] = {1.0f, 1.0f, 1.0f, .075f};
+			CGFloat endColorComps[] = {1.0f, 1.0f, 1.0f, .0f};
+			CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+			CGColorRef startColor = CGColorCreate(colorSpace, startColorComps);
+			CGColorRef endColor = CGColorCreate(colorSpace, endColorComps);
+			CFMutableArrayRef colors = CFArrayCreateMutable(NULL, 2, &kCFTypeArrayCallBacks);
+			CFArrayAppendValue(colors, startColor);
+			CFArrayAppendValue(colors, endColor);
+			CGGradientRef _glossGradientRef = CGGradientCreateWithColors(colorSpace, colors, NULL);
+            CGColorSpaceRelease(colorSpace);
+			CFRelease(colors);
+			CFRelease(endColor);
+			CFRelease(startColor);
+            CGRect gradientRect = rect;
+            CGPoint endPoint = (CGPoint){CGRectGetMinX(gradientRect), CGRectGetMinY(gradientRect)};
+            CGPoint startPoint = (CGPoint){CGRectGetMinX(gradientRect), CGRectGetMaxY(gradientRect)};
+            CGContextDrawLinearGradient(ctx, _glossGradientRef, startPoint, endPoint, kCGGradientDrawsAfterEndLocation);
+            CGGradientRelease(_glossGradientRef);
+            
+            //
+            CGRect topLine = rect;
+            topLine.size.height = 1.0f;
+            [[UIColor colorWithWhite:1.0f alpha:.25f] setFill];
+            UIRectFill(topLine);
+            
+            CGRect bottomLine = rect;
+            bottomLine.origin.y += CGRectGetHeight(bottomLine)-1.0f;
+            bottomLine.size.height = 1.0f;
+            [[UIColor colorWithWhite:.2f alpha:1.0f] setFill];
+            UIRectFill(bottomLine);
+            
+        }];
+    });
+    
+    return toReturn;
+}
 
 
 - (void)viewDidLoad
@@ -159,11 +195,6 @@
     return [[self.data objectForKey:@"Sections"] count];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-	return [[[self.data objectForKey:@"Sections"] objectAtIndex:section] objectForKey:@"title"];
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	NSDictionary *sectionDictionary = [[self.data objectForKey:@"Sections"] objectAtIndex:section];
@@ -179,21 +210,20 @@
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 		
-        UIImageView *iv = [UIImageView new];
-        iv.image = [self _backgroundImage];
-        
-        UIImageView *siv = [UIImageView new];
-        siv.image = [self _selectedBackgroundImage];
-        
+        //
+        UIImageView *iv = [[UIImageView alloc] initWithImage:[self _backgroundImage]];
         cell.backgroundView = iv;
-        cell.selectedBackgroundView = siv;
-		cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f];
-		cell.textLabel.textColor = [UIColor offWhiteTextColor];
-		cell.textLabel.highlightedTextColor = [UIColor lightTextColor];
-		cell.textLabel.shadowColor = [UIColor offWhiteTextShadowColor];
-		cell.textLabel.shadowOffset = CGSizeMake(.0f, 1.0f);
-		
-		
+        
+        //
+        UIView *selectedBackgroundView = [[UIImageView alloc] initWithImage:[self _selectedBackgroundImage]];
+        cell.selectedBackgroundView = selectedBackgroundView;
+        
+        //
+		cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f];
+        cell.textLabel.textColor = [UIColor colorWithWhite:.6f alpha:1.0f];
+		cell.textLabel.highlightedTextColor = [UIColor colorWithWhite:1.0f alpha:1.0f];
+		cell.textLabel.shadowColor = [UIColor blackColor];
+		cell.textLabel.shadowOffset = CGSizeMake(.0f, -.7f);
     }    
 	
     // Configure the cell...
@@ -202,9 +232,6 @@
 	
     return cell;
 }
-
-
-
 
 /*
 // Override to support conditional editing of the table view.
@@ -258,9 +285,34 @@
     [self.containerViewController dismissMenuViewController:YES andPresentViewController:rvc];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-	return 50.0f;
+    if (section == 0) return nil;
+    
+    //
+    UIImageView *iv = [[UIImageView alloc] initWithImage:[self _viewForHeaderImage]];
+    
+    //
+    CGFloat padding = 10.0f;
+    CGRect rect = iv.bounds;
+    rect.origin.x += padding;
+    rect.size.width -= padding;
+    UILabel *label = [[UILabel alloc] initWithFrame:rect];
+    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f];
+    label.backgroundColor = [UIColor clearColor];
+    label.text = [[[self.data objectForKey:@"Sections"] objectAtIndex:section] objectForKey:@"title"];
+    label.textColor = [UIColor colorWithWhite:.65f alpha:1.0f];
+    label.shadowColor = [UIColor blackColor];
+    label.shadowOffset = CGSizeMake(.0f, -.7f);
+    [iv addSubview:label];
+    
+    return iv;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) return .0f;
+    return [self _viewForHeaderImage].size.height;
 }
 
 @end

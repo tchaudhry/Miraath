@@ -77,9 +77,9 @@
     //DLog(@"Duration is: %f", duration);
 	[UIView animateWithDuration:duration animations:^{
         
-        self.centerViewController.view.frame = CGRectOffset(self.view.bounds, -15.0f, 0.0f);
+        self.centerViewController.view.frame = CGRectOffset(self.view.bounds, .0f, 0.0f);
 //        self.centerViewController.view.alpha = 1.0f;
-        self.menuViewController.view.transform = CGAffineTransformMakeScale(0.95f, 0.85f);
+        self.menuViewController.view.transform = CGAffineTransformMakeScale(0.95f, 0.95f);
         self.menuViewController.view.alpha = 0.8f;
         
     } completion:^(BOOL finished) {
@@ -129,7 +129,7 @@
 	if(panGestureRecognizer.state == UIGestureRecognizerStateBegan)
 	{
 		self.menuViewController.view.frame = UIEdgeInsetsInsetRect(self.view.bounds, UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, self.view.bounds.size.width * 0.1f));
-		self.menuViewController.view.transform = CGAffineTransformMakeScale(0.95f, 0.85f);
+		self.menuViewController.view.transform = CGAffineTransformMakeScale(0.95f, 0.95f);
 		self.menuViewController.view.alpha = 0.25f;
 		
 		
@@ -157,8 +157,8 @@
 		
 		CGFloat xPercentageDragged = self.centerViewController.view.frame.origin.x / (self.view.bounds.size.width * .9f);
 //		DLog(@"Percentage Dragged:  %f", xPercentageDragged);
-		self.menuViewController.view.alpha = 0.25f + (0.75 * xPercentageDragged);
-		self.menuViewController.view.transform = CGAffineTransformMakeScale(.95f + (.05f * xPercentageDragged), 0.85 + (0.15 * xPercentageDragged));
+		self.menuViewController.view.alpha = 0.5f + (0.5f * xPercentageDragged);
+		self.menuViewController.view.transform = CGAffineTransformMakeScale(.95f + (.05f * xPercentageDragged), 0.95 + (0.05 * xPercentageDragged));
 		
 	}
 	else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded)
@@ -172,20 +172,23 @@
 		
 		NSLog(@"velocity: %@", NSStringFromCGPoint(velocity));
 		
-		if(self.centerViewController.view.frame.origin.x < (self.view.frame.size.width * 0.15))
+		/*if(self.centerViewController.view.frame.origin.x < (self.view.frame.size.width * 0.15))
 		{
 			[self hideMenuControllerWithAnimationDuration: fabsf(self.centerViewController.view.frame.origin.x/ xVelocity / 3)];
 		}
-		else if (self.centerViewController.view.frame.origin.x > (self.view.frame.size.width * 0.85))
-		{
+		else if (self.centerViewController.view.frame.origin.x > (self.view.frame.size.width * 0.85))*/
+		
+		if (self.centerViewController.view.frame.origin.x > (self.view.frame.size.width)){
 			[self showMenuControllerWithAnimationDuration:fabsf((self.view.frame.size.width - self.centerViewController.view.frame.origin.x) / xVelocity)];
 		}else{
 			if(velocity.x < 0){
 				NSLog(@"%f", velocity.x);
-				NSLog(@"%f", self.centerViewController.view.frame.origin.x);
+				NSLog(@"controller x: %f", self.centerViewController.view.frame.origin.x);
 				CGFloat duration = self.centerViewController.view.frame.origin.x / xVelocity;
 				NSLog(@"%f", duration);
-				[self hideMenuControllerWithAnimationDuration: fabsf(duration)];
+				NSLog(@"view bounds x value: %f", self.view.bounds.origin.x);
+				if(self.centerViewController.view.frame.origin.x > 0)
+					[self hideMenuControllerWithAnimationDuration: fabsf(duration)];
 			}else{
 				[self showMenuControllerWithAnimationDuration:fabsf((self.view.frame.size.width - self.centerViewController.view.frame.origin.x) / xVelocity)];
 			}
@@ -241,7 +244,7 @@
 {
     [UIView animateWithDuration:animated ? 0.3f : 0.0f animations:^{
         
-        self.centerViewController.view.frame = CGRectOffset(self.view.bounds, -15.0f, 0.0f);
+        self.centerViewController.view.frame = CGRectOffset(self.view.bounds, .0f, 0.0f);
 //		self.centerViewController.view.alpha = 1.0f;
         self.menuViewController.view.transform = CGAffineTransformMakeScale(0.95f, 0.85f);
         self.menuViewController.view.alpha = 0.8f;

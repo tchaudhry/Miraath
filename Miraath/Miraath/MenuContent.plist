@@ -6,6 +6,17 @@
 	<array>
 		<dict>
 			<key>title</key>
+			<string> </string>
+			<key>cells</key>
+			<array>
+				<dict>
+					<key>title</key>
+					<string>Settings</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>title</key>
 			<string>Radio</string>
 			<key>cells</key>
 			<array>

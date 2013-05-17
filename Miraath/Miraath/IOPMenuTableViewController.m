@@ -10,6 +10,7 @@
 #import "IOPRadioViewController.h"
 #import "UIViewController+SlideMenu.h"
 #import "UIImage+Block.h"
+#import "UIColor+Extension.h"
 
 @interface IOPMenuTableViewController ()
 
@@ -36,8 +37,10 @@
 {
     [super loadView];
     
+	[self.navigationController setNavigationBarHidden:YES];
+	
     self.tableView.rowHeight = 50.0f;//kTableViewCellHeight
-    self.tableView.backgroundColor = [UIColor grayColor];
+    self.tableView.backgroundColor = [UIColor darkGrayColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 
 }
@@ -140,7 +143,7 @@
     self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -185,8 +188,11 @@
         cell.backgroundView = iv;
         cell.selectedBackgroundView = siv;
 		cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0f];
-		cell.textLabel.textColor = [UIColor whiteColor];
+		cell.textLabel.textColor = [UIColor offWhiteTextColor];
 		cell.textLabel.highlightedTextColor = [UIColor lightTextColor];
+		cell.textLabel.shadowColor = [UIColor offWhiteTextShadowColor];
+		cell.textLabel.shadowOffset = CGSizeMake(.0f, 1.0f);
+		
 		
     }    
 	

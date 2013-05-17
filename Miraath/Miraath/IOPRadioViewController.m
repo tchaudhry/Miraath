@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) UIButton *button;
+@property (nonatomic, strong) UIButton *pauseButton;
 @property (nonatomic, strong) UIImageView *buttonImageView;
 @property (nonatomic, assign) BOOL shouldResumeAfterInterruption;
 @property (nonatomic, strong) UILabel *trackTitleLabel;
@@ -48,11 +49,13 @@
         if (error)
             NSLog(@"Failed to create audio session: %@", [error localizedDescription]);
         
-        if (FW_isIOS5())
-            audioSession.delegate = self;
-        
-        if (FW_isIOS6())
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioSessionInterruption:) name:AVAudioSessionInterruptionNotification object:audioSession];
+        //if (FW_isIOS6()){
+            //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioSessionInterruption:) name:AVAudioSessionInterruptionNotification object:audioSession];
+			//audioSession.delegate = self;
+		//}
+		//else
+			audioSession.delegate = self;
+		
     }
     return self;
 }
@@ -84,13 +87,13 @@
 	for (UIView *view in self.volumeView.subviews){
 		if ([view isKindOfClass:[UISlider class]]) {
 			((UISlider *) view).minimumTrackTintColor = [UIColor peachTextColor];
-			((UISlider *) view).maximumTrackTintColor = [UIColor offWhiteTextColor];
+			((UISlider *) view).maximumTrackTintColor = [UIColor clearColor];
 		}
 	}
 	
     [self.view addSubview:self.volumeView];
 
-    //Add the button
+    //Add the play button
 	self.button = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *image = [UIImage imageNamed:@"radio_player_play.png"];
     [self.button setBackgroundImage:image forState:UIControlStateNormal];
@@ -98,7 +101,21 @@
 	self.button.backgroundColor = [UIColor clearColor];
     [self.button addTarget:self action:@selector(togglePlayPause:) forControlEvents:UIControlEventTouchUpInside];
 	self.button.adjustsImageWhenHighlighted = NO;
+	self.button.tag = 101;
 	[self.view addSubview:self.button];
+
+	
+    //Add the button
+	self.pauseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *pauseImage = [UIImage imageNamed:@"radio_player_pause.png"];
+    [self.pauseButton setBackgroundImage:pauseImage forState:UIControlStateNormal];
+    self.pauseButton.frame = CGRectMake(0.0f, 0.0f, pauseImage.size.width, pauseImage.size.height);
+	self.pauseButton.backgroundColor = [UIColor clearColor];
+    [self.pauseButton addTarget:self action:@selector(togglePlayPause:) forControlEvents:UIControlEventTouchUpInside];
+	self.pauseButton.adjustsImageWhenHighlighted = NO;
+	self.pauseButton.alpha = 0.0f;
+	[self.view addSubview:self.pauseButton];
+	
 	
 	//Add Radio Station Label
 	
@@ -123,12 +140,11 @@
 	self.trackTitleLabel.shadowColor = [UIColor blackColor];
 	self.trackTitleLabel.shadowOffset = CGSizeMake(1.0f, 1.0f);
 	self.trackTitleLabel.textAlignment = NSTextAlignmentCenter;
-	self.trackTitleLabel.numberOfLines = 2;
+	self.trackTitleLabel.numberOfLines = 3;
 	self.trackTitleLabel.lineBreakMode = UILineBreakModeWordWrap;
 	
-	
 	self.trackTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20.0f];
-	self.trackTitleLabel.adjustsFontSizeToFitWidth = YES;
+	//self.trackTitleLabel.adjustsFontSizeToFitWidth = YES;
 	
 	[self.view addSubview:self.trackTitleLabel];
 	
@@ -141,18 +157,19 @@
 {
     [super viewWillLayoutSubviews];
 	self.button.center = CGPointMake(self.view.bounds.size.width / 2.0f, self.view.bounds.size.height / 2.0f);
-
+	self.pauseButton.center = CGPointMake(self.view.bounds.size.width / 2.0f, self.view.bounds.size.height / 2.0f);
+	
 	self.buttonImageView.center = CGPointMake(self.view.bounds.size.width / 2.0f, self.view.bounds.size.height / 2.0f);
 
 	self.radioStationLabel.frame = CGRectMake(10.0f, 80.0f, self.view.bounds.size.width - 20.0f, 50.0f);
 	
-	self.trackTitleLabel.frame = CGRectMake(10.0f, 10.0f, self.view.bounds.size.width - 20.0f, 70.0f);
+	self.trackTitleLabel.frame = CGRectMake(15.0f, 10.0f, self.view.bounds.size.width - 30.0f, 80.0f);
 	
 	BOOL isIPhone5 = self.view.window.frame.size.height == 568.0f;
 	self.defaultBackgroundImageView.image = [UIImage imageNamed:isIPhone5 ? @"black_bg-568h.png" : @"black_bg.png"];
 	
 
-	self.volumeView.frame = CGRectMake(10.0f, self.view.bounds.size.height - 100.0f, self.view.bounds.size.width - 20.0f, 50.0f);
+	self.volumeView.frame = CGRectMake(20.0f, self.view.bounds.size.height - 100.0f, self.view.bounds.size.width - 40.0f, 50.0f);
 	
 	
 	self.defaultBackgroundImageView.frame =  CGRectMake(0.0f, -20.0f, self.view.window.bounds.size.width, self.view.window.bounds.size.height + 20.0f);
@@ -189,6 +206,7 @@
     [super viewDidAppear:animated];
     
     [self becomeFirstResponder];
+	
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -218,8 +236,6 @@
 //iOS 5
 - (void)beginInterruption
 {
-    if (FW_isIOS6())
-		return;
 	if(self.player.rate == 0.0f)
 	{
 		NSLog(@"Rate equals zero");
@@ -228,25 +244,23 @@
 		NSLog(@"Rate NOT zero");
 		self.shouldResumeAfterInterruption = YES;
 	}
-	
 }
 
 
-//iOS 5
+
 - (void)endInterruptionWithFlags:(NSUInteger)flags
 {
-    if (FW_isIOS6())
-		return;
-	NSLog(@"Resume Flag = %d", self.shouldResumeAfterInterruption);
-	if (flags == AVAudioSessionInterruptionFlags_ShouldResume && self.shouldResumeAfterInterruption)
-        [self.player play];
+	
+	if(flags == AVAudioSessionInterruptionFlags_ShouldResume && self.shouldResumeAfterInterruption)
+		[self.player play];
+		
 }
-//iOS 6
+//iOS 6 - This is a bit flaky.
 - (void)audioSessionInterruption:(NSNotification *)notification
 {
     AVAudioSessionInterruptionType interruptionType = [[[notification userInfo] objectForKey:AVAudioSessionInterruptionTypeKey] integerValue];
     NSLog(@"interruptionType = %i", interruptionType);
-	/*if(interruptionType == AVAudioSessionInterruptionTypeBegan)
+	if(interruptionType == AVAudioSessionInterruptionTypeBegan)
 	{
 		if(self.player.rate == 0.0f)
 		{
@@ -255,12 +269,16 @@
 		}else{
 			NSLog(@"Rate NOT zero");
 			self.shouldResumeAfterInterruption = YES;
+			[self.player pause];
 		}
-	}*/
+	}
 	if (interruptionType == AVAudioSessionInterruptionTypeEnded) {
         AVAudioSessionInterruptionOptions option = [[[notification userInfo] objectForKey:AVAudioSessionInterruptionOptionKey] integerValue];
-        if (option == AVAudioSessionInterruptionOptionShouldResume)
+		NSLog(@"option = %i", option);
+        if (option == AVAudioSessionInterruptionOptionShouldResume){
             [self.player play];
+			NSLog(@"Player did play in notification");
+		}
     }
 }
 
@@ -271,38 +289,39 @@
 	__block UIImage *image = nil;
 	CGFloat animationDuration = .5f;
     if (self.player.rate == 0.0f){
-		[UIView animateWithDuration:animationDuration
-						 animations:^{
-							 self.button.alpha = 0.0f;
-							 self.buttonImageView.alpha = 1.0f;
-						 }
-						 completion:^(BOOL finished) {
-							 [UIView animateWithDuration:animationDuration animations:^{
-								 image = [UIImage imageNamed:@"radio_player_pause.png"];
-								 [self.button setBackgroundImage:image forState:UIControlStateNormal];
-								 self.button.alpha = 1.0f;
-								 self.buttonImageView.alpha = .0f;
-							 }];
-						 }
+		[UIView transitionWithView:self.button
+						  duration:animationDuration
+						   options:UIViewAnimationOptionTransitionFlipFromLeft
+						animations:^{
+							image = [UIImage imageNamed:@"radio_player_pause.png"];
+							[self.button setBackgroundImage:image forState:UIControlStateNormal];
+						}
+						completion:^(BOOL finished) {
+							[UIView animateWithDuration:animationDuration animations:^{
+								self.volumeView.alpha = 1.0f;
+							}];
+						}
 		 ];
-
 		[self.player play];
-    }else{
-		[UIView animateWithDuration:animationDuration
-						 animations:^{
-							 self.button.alpha = 0.0f;
-							 self.buttonImageView.alpha = 1.0f;
-						 }
-						 completion:^(BOOL finished) {
-							 [UIView animateWithDuration:animationDuration animations:^{
-								 image = [UIImage imageNamed:@"radio_player_play.png"];
-								 [self.button setBackgroundImage:image forState:UIControlStateNormal];
-								 self.button.alpha = 1.0f;
-								 self.buttonImageView.alpha = .0f;
-							 }];
-						 }
-		 ];
+		NSArray *meta = [self.player currentItem].timedMetadata;
+		NSLog(@"%@", meta.description);
+		[[self.player currentItem] addObserver:self forKeyPath:@"timedMetadata" options:NSKeyValueObservingOptionNew   context:NULL];
 		
+    }else{
+		[UIView transitionWithView:self.button
+						  duration:animationDuration
+						   options:UIViewAnimationOptionTransitionFlipFromRight
+						animations:^{
+							image = [UIImage imageNamed:@"radio_player_play.png"];
+							[self.button setBackgroundImage:image forState:UIControlStateNormal];
+							self.volumeView.alpha = 0.0f;
+						}
+						completion:^(BOOL finished) {
+							[UIView animateWithDuration:animationDuration animations:^{
+								
+							}];
+						}
+		 ];
         [self.player pause];
 	}
 }
@@ -340,11 +359,37 @@
                         change:(NSDictionary *)change context:(void *)context {
     if (object == self.player && [keyPath isEqualToString:@"status"]) {
         if (self.player.status == AVPlayerStatusReadyToPlay) {
-            NSLog(@"Player ststus is Ready to Play");
+            NSLog(@"Player status is Ready to Play");
         } else if (self.player.status == AVPlayerStatusFailed) {
             NSLog(@"Player ststus is FAILED");
         }
     }
+	
+	if ([keyPath isEqualToString:@"timedMetadata"])
+	{
+		AVPlayerItem *playerItem = [self.player currentItem];
+		
+		for (AVMetadataItem* metadata in playerItem.timedMetadata)
+		{
+			
+#warning Check the title when you localise the application
+			NSString *title = metadata.stringValue;
+			if([[self.channelInfo objectForKey:@"title"] isEqualToString:@"Arabic"] || [[self.channelInfo objectForKey:@"title"] isEqualToString:@"Quran"]){
+				NSLog(@"\nkey: %@\nkeySpace: %@\ncommonKey: %@\nvalue: %@", [metadata.key description], metadata.keySpace, metadata.commonKey, metadata.stringValue);
+				
+				NSData *data = [title dataUsingEncoding:NSWindowsCP1252StringEncoding];
+				NSString *dataString = [[NSString alloc] initWithData:data encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingWindowsArabic) ];
+				NSData* newData = [dataString dataUsingEncoding:NSUTF16StringEncoding];
+				NSString *titleString = [[NSString alloc] initWithData:newData encoding:NSUTF16StringEncoding];
+				
+				
+				title = [titleString stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+				NSLog(@"%@", title);
+			}
+			[self updateTrackTitle:title animated:YES];
+		}
+	}
+	
 }
 
 
@@ -378,7 +423,8 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     // The request has failed for some reason!
     // Check the error var
-	NSLog(@"An Error occurred: @%", error.description);
+	//NSLog(@"An Error occurred: @%", error.description);
+	NSLog(@"A connection error occurred!!!");
 }
 
 
@@ -394,40 +440,85 @@
 	NSLog(@"Data: %@", metadata);
 	
 	int index = ([metadata rangeOfString:@"<body>"].location + 1);
-	
-	//Now let’s remove the first part of the junk.
-	metadata = [metadata substringFromIndex:index];
-	
-	//Now let’s remove the rest of the HTML tags. We have to know where the body tag is closed.
-	index = [metadata rangeOfString:@"</body>"].location;
-	
-	//Now we need to remove the rest of the tags.
-	metadata = [metadata substringToIndex:index];
-    
-	NSArray *metadataComponents = [metadata componentsSeparatedByString:@","];
-
-	self.trackTitleLabel.text = [metadataComponents lastObject];
-	NSLog(@"Track Title: %@", self.trackTitleLabel.text);
-
-	[UIView animateWithDuration:.75f
-					 animations:^{
-						self.trackTitleLabel.alpha = 1.0f;
-					 }
-					 completion:^(BOOL finished) {
-						 [UIView animateWithDuration:1.5f animations:^{
-							self.radioStationLabel.alpha = 1.0f;
-						 }completion:^(BOOL finished) {
+	if(index != NSNotFound){
+		//Now let’s remove the first part of the junk.
+		metadata = [metadata substringFromIndex:index];
+		
+		//Now let’s remove the rest of the HTML tags. We have to know where the body tag is closed.
+		index = [metadata rangeOfString:@"</body>"].location;
+		
+		//Now we need to remove the rest of the tags.
+		metadata = [metadata substringToIndex:index];
+		
+		NSArray *metadataComponents = [metadata componentsSeparatedByString:@","];
+		
+		self.trackTitleLabel.text = [metadataComponents lastObject];
+		NSLog(@"Track Title: %@", self.trackTitleLabel.text);
+		
+		[UIView animateWithDuration:.75f
+						 animations:^{
+							 self.trackTitleLabel.alpha = 1.0f;
+						 }
+						 completion:^(BOOL finished) {
 							 [UIView animateWithDuration:1.5f animations:^{
-								 self.volumeView.alpha = 1.0f;
+								 self.radioStationLabel.alpha = 1.0f;
 							 }];
-						 }];
-					 }
-	 ];
-	
+						 }
+		 ];
+	}
 	
 	
 	
 }
+
+
+
+- (void) updateTrackTitle:(NSString *) newTitle animated:(BOOL)animated{
+	
+	if(![self.trackTitleLabel.text isEqualToString:newTitle]){
+		[UIView animateWithDuration:0.5f animations:^{
+			self.trackTitleLabel.alpha = 0.0f;
+		} completion:^(BOOL finished) {
+			self.trackTitleLabel.text = newTitle;
+			[UIView animateWithDuration:0.75f animations:^{
+				self.trackTitleLabel.alpha = 1.0f;
+			}];
+		}];
+	}
+	
+}
+
+//
+// spinButton
+//
+// Shows the spin button when the audio is loading. This is largely irrelevant
+// now that the audio is loaded from a local file.
+//
+- (void)spinButton
+{
+	[CATransaction begin];
+	[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+	CGRect frame = [self.button frame];
+	self.button.layer.anchorPoint = CGPointMake(0.5, 0.5);
+	self.button.layer.position = CGPointMake(frame.origin.x + 0.5 * frame.size.width, frame.origin.y + 0.5 * frame.size.height);
+	[CATransaction commit];
+	
+	[CATransaction begin];
+	[CATransaction setValue:(id)kCFBooleanFalse forKey:kCATransactionDisableActions];
+	[CATransaction setValue:[NSNumber numberWithFloat:2.0] forKey:kCATransactionAnimationDuration];
+	
+	CABasicAnimation *animation;
+	animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+	animation.fromValue = [NSNumber numberWithFloat:0.0];
+	animation.toValue = [NSNumber numberWithFloat:2 * M_PI];
+	animation.timingFunction = [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionLinear];
+	animation.delegate = self;
+	[self.button.layer addAnimation:animation forKey:@"rotationAnimation"];
+	
+	[CATransaction commit];
+}
+
+
 
 
 @end
